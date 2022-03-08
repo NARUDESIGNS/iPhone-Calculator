@@ -10,15 +10,18 @@ function App() {
 
   const operators = ['÷', 'x', '-', '+', '='];
 
-  const handleClick = (type, value) => {
-    // compute value
-    const calculate = (equation) => {
-      return eval(equation);
-    }
+  // compute value
+  const calculate = (equation) => {
+    // replace all occurrences of 'x' with '*' and '÷' with '/'
+    equation = equation.replace(/x/g, '*').replace(/÷/g, '/'); 
+    return eval(equation);
+  }
 
+  const handleClick = (type, value) => {
     // reset input
     if (type === 'special' && value === 'AC') {
       setEquation('0');
+      setFinalEquation('0');
     }
     
     // click on '+/-' button
@@ -31,30 +34,48 @@ function App() {
     }
 
     // click on '%' button
-    if (type === 'special' && value === '%' && equation != 0) setEquation(prevState => prevState/100);
+    if (type === 'special' && value === '%' && Number(equation) !== 0) setEquation(prevState => prevState/100);
 
     // click on an operator
     if (type === 'operator') {
-      if (!operators.includes(equation[equation.length - 1])) setFinalEquation(equation + value);
+      // check if the final equation contains an operator and its last character is not an operator (e.g check that it is `5+10`, not `5+`)
+      operators.map(operator => {
+        if(finalEquation.includes(operator) && !operators.includes(finalEquation[finalEquation.length - 1])){
+          console.log('contains a symbol');
+          setEquation(`${calculate(finalEquation)}`); // set calculated value as string
+          setFinalEquation(`${calculate(finalEquation)}`); //
+        }
+      })
+      if (!operators.includes(finalEquation[finalEquation.length - 1])) {
+        console.log('last char is symbol');
+        // append operator to finalEquation (e.g `5+`)
+        setFinalEquation(`${calculate(finalEquation)}${value}`);
+      }
+      if(value === '=') setFinalEquation(prevState => prevState.replace('=',''));
     }
 
     // click on a number
     if (type === 'number' && equation.length < 9) {
-      if (equation.startsWith(0)) setEquation(prevState => prevState.replace('0', ''));
+      if (equation.startsWith(0) || finalEquation.startsWith(0)) {
+        setEquation(prevState => prevState.replace('0', ''));
+        setFinalEquation(prevState => prevState.replace('0', ''));
+      }
+      // if last character of finalEquation is an operator, append the value to finalEquation (e.g `5+10`)
       if (operators.includes(finalEquation[finalEquation.length - 1])) {
         console.log('ends with operator');
         setFinalEquation(prevState => prevState + value);
         setEquation(value);
       } else {
+        console.log('doesn`t end with operator');
         setEquation((prevState) =>  prevState + value);
-        setFinalEquation(equation + value);
+        setFinalEquation((prevState) =>  prevState + value);
       }
     }
   }
-
+  
   useEffect(() => {
     console.log(finalEquation);
-  }, [equation]);
+  }, [finalEquation]);
   
   return (
     <div className="container">
