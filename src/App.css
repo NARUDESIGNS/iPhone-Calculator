@@ -102,6 +102,7 @@ body {
   .buttons button {
     height: 70px;
     width: 70px;
+    text-align: center;
   }
 }
 
