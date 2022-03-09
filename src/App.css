@@ -91,6 +91,7 @@ body {
     width: 100vw;
     margin: 0;
     border-radius: 0;
+    overflow-y: hidden;
   }
   .output {
     height: 40%;
