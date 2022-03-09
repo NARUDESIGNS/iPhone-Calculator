@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import './app.css';
 import Output from './Components/Output';
@@ -21,9 +21,9 @@ function App() {
     }
   
     // add comma (not implemented yet)
-    const commafy = (value) => {
-      return value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-    }
+    // const commafy = (value) => {
+    //   return value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+    // }
 
     const removeZeros = () => {
       // unless equation or finalEquation includes '.' (e.g 0.56) clear leading zeros (remove: 056, set: 56)
