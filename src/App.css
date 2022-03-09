@@ -55,6 +55,7 @@ body {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  align-self: center;
   gap: 15px;
 }
 .buttons button {
@@ -72,6 +73,7 @@ body {
   border-radius: 50px;
   text-align: left;
   padding-left: 35px;
+  width: 100%;
 }
 .buttons button:hover {
   opacity: .7;
@@ -94,6 +96,18 @@ body {
     height: 40%;
   }
   .buttons {
-    height: 55%;
+    /* height: 55%; */
+    width: fit-content;
+  }
+  .buttons button {
+    height: 70px;
+    width: 70px;
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  .buttons button {
+    height: 50px;
+    width: 50px;
   }
 }
